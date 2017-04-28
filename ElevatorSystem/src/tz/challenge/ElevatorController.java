@@ -26,8 +26,8 @@ public class ElevatorController {
 		requests.add(request);
 	}
 
-	public void removeRequest(TripRequest request) {
-		requests.remove(request);
+	public TripRequest getNextRequest() {
+		return requests.poll();
 	}
 
 	public void getNewRequest(Button button, Elevator elevator) {
@@ -42,9 +42,8 @@ public class ElevatorController {
 	}
 
 	public void processTripRequest() {
-		TripRequest nextRequest = requests.peek();
+		TripRequest nextRequest = getNextRequest();
 		Elevator closestElevator = findClosestElevator(nextRequest);
-		nextRequest.setElevatorId(closestElevator.getElevatorId());
 
 		int pickupFloor = nextRequest.getFloorFrom();
 		int destinationFloor = nextRequest.getFloorTo();
@@ -55,9 +54,7 @@ public class ElevatorController {
 		takeTrip(closestElevator, destinationFloor);
 		closestElevator.openDoors();
 		closestElevator.closeDoors();
-		closestElevator.addToNumberOfTrips();
-		removeRequest(nextRequest);
-		
+		closestElevator.addToNumberOfTrips();		
 	}
 
 	private void takeTrip(Elevator closestElevator, int requestedFloor) {
@@ -99,6 +96,7 @@ public class ElevatorController {
 				}
 			}
 		}
+		nextRequest.setElevatorId(elevator.getElevatorId());
 		return elevator;
 
 	}
