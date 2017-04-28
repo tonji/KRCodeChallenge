@@ -30,9 +30,9 @@ public class ElevatorController {
 		requests.remove();
 	}
 	
-	public void getNewRequest(Button button) {
+	public void getNewRequest(Button button, Elevator elevator) {
 		if (button instanceof FloorButton) {
-			
+			processTripRequest(elevator.getCurrentFloor(), button.requestElevatorFloor());
 		}
 	}
 	
@@ -48,18 +48,28 @@ public class ElevatorController {
 		Elevator elevator = elevators.get(0);  //set first elevator as default
 		TripRequest nextRequest = requests.peek();
 		int requestFloorPickup = nextRequest.getFloorFrom();
+		int requestFloorDropOff = nextRequest.getFloorTo();
 		for (Elevator closest : elevators) {
 			if (closest.getNumberOfTrips() < MAX_TRIPS) {
 				//an unoccupied elevator is already stopped at that floor
 				if (requestFloorPickup == closest.getCurrentFloor() && !closest.isOccupied()) {
+					elevator = closest;
+				} else if (closest.isOccupied() && (isBetweenFloors(requestFloorPickup, closest.getCurrentFloor(), requestFloorDropOff)) {
+					elevator = closest;
 					
-				} 
+				} else if (!closest.isOccupied()) {
+					elevator = closest;
+				}
 			}
 		}
 		return elevator;
 		
 	}
 
+	private boolean isBetweenFloors(int requested, int from, int to) {
+		return (from < requested && requested < to)|| (to < requested && requested < from);
+	}
+	
 	private void initializeElevators(int numberOfElevators) {
 		for (int i = 0; i < numberOfElevators; i++) {
 			elevators.add(new Elevator(i + 1));
