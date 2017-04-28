@@ -46,15 +46,24 @@ public class ElevatorController {
 		Elevator closestElevator = findClosestElevator(nextRequest);
 		nextRequest.setElevatorId(closestElevator.getElevatorId());
 
-		int currentFloor = closestElevator.getCurrentFloor();
 		int pickupFloor = nextRequest.getFloorFrom();
 		int destinationFloor = nextRequest.getFloorTo();
 
-		// got to pickup
-		handlePickup(closestElevator, currentFloor, pickupFloor);
+		// go to pickup
+		takeTrip(closestElevator, pickupFloor);
+		closestElevator.getDoor().setOpen(true);
+		closestElevator.getDoor().setOpen(false);
+		// go to dropoff
+		takeTrip(closestElevator, destinationFloor);
+		closestElevator.getDoor().setOpen(true);
+		closestElevator.getDoor().setOpen(false);
+		closestElevator.addToNumberOfTrips();
+		
 	}
 
-	private void handlePickup(Elevator closestElevator, int currentFloor, int pickupFloor) {
+	private void takeTrip(Elevator closestElevator, int pickupFloor) {
+		int currentFloor = closestElevator.getCurrentFloor();
+		
 		if (currentFloor == pickupFloor) {
 			return;
 		}

@@ -17,7 +17,7 @@ public class Elevator {
 	public int getElevatorId() {
 		return elevatorId;
 	}
-	
+
 	public int getCurrentFloor() {
 		return currentFloor;
 	}
@@ -52,15 +52,29 @@ public class Elevator {
 
 	public void moveUp() {
 		currentFloor++;
+		reportCurrentFloor();
 		addToNumberOfFloors();
 	}
-	
+
 	public void moveDown() {
 		currentFloor--;
+		reportCurrentFloor();
 		addToNumberOfFloors();
 	}
-	
-	public ElevatorDoor getDoor() {
-		return door;
+
+	public boolean isOpen() {
+		return door.isOpen();
+	}
+
+	public void closeDoors() {
+		door.setOpen(false);
+	}
+
+	public void openDoors() {
+		door.setOpen(false);
+	}
+
+	public void reportCurrentFloor() {
+		System.out.println("Elevator " + getElevatorId() + " current floor: " + currentFloor);
 	}
 }
