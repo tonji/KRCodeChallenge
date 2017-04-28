@@ -6,7 +6,6 @@ public class Elevator {
 	private int currentFloor;
 	private int numberOfTrips;
 	private int numberOfFloors;
-	private boolean moveUpOrDown;
 	private boolean occupied;
 
 	public Elevator(int elevatorId) {
@@ -29,16 +28,16 @@ public class Elevator {
 		return numberOfTrips;
 	}
 
-	public void setNumberOfTrips(int numberOfTrips) {
-		this.numberOfTrips = numberOfTrips;
+	public void addToNumberOfTrips() {
+		this.numberOfTrips++;
 	}
 
 	public int getNumberOfFloors() {
 		return numberOfFloors;
 	}
 
-	public void setNumberOfFloors(int numberOfFloors) {
-		this.numberOfFloors = numberOfFloors;
+	public void addToNumberOfFloors() {
+		this.numberOfFloors++;
 	}
 
 	public boolean isOccupied() {
@@ -49,4 +48,13 @@ public class Elevator {
 		this.occupied = occupied;
 	}
 
+	public void moveUp() {
+		currentFloor++;
+		addToNumberOfFloors();
+	}
+	
+	public void moveDown() {
+		currentFloor--;
+		addToNumberOfFloors();
+	}
 }
