@@ -8,5 +8,5 @@ public abstract class Button {
 		return isPressed;
 	}
 	
-	public abstract void requestElevator();
+	public abstract void requestElevator(int floor);
 }

@@ -27,7 +27,13 @@ public class ElevatorController {
 	}
 	
 	public void removeRequest(TripRequest request) {
-		requests.poll();
+		requests.remove();
+	}
+	
+	public void getNewRequest(Button button) {
+		if (button instanceof FloorButton) {
+			
+		}
 	}
 	
 	public void processTripRequest(int floorFrom, int floorTo) {
@@ -40,7 +46,16 @@ public class ElevatorController {
 	
 	private Elevator findClosestElevator() {
 		Elevator elevator = elevators.get(0);  //set first elevator as default
-		
+		TripRequest nextRequest = requests.peek();
+		int requestFloorPickup = nextRequest.getFloorFrom();
+		for (Elevator closest : elevators) {
+			if (closest.getNumberOfTrips() < MAX_TRIPS) {
+				//an unoccupied elevator is already stopped at that floor
+				if (requestFloorPickup == closest.getCurrentFloor() && !closest.isOccupied()) {
+					
+				} 
+			}
+		}
 		return elevator;
 		
 	}
