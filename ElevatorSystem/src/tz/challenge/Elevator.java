@@ -77,4 +77,9 @@ public class Elevator {
 	public void reportCurrentFloor() {
 		System.out.println("Elevator " + getElevatorId() + " current floor: " + currentFloor);
 	}
+	
+
+	public void reportForDoors() {
+		System.out.println("Elevator " + getElevatorId() + " doors are: " + (isOpen() ? "Yes" : "No"));
+	}
 }

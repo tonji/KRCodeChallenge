@@ -27,7 +27,7 @@ public class ElevatorController {
 	}
 
 	public void removeRequest(TripRequest request) {
-		requests.remove();
+		requests.remove(request);
 	}
 
 	public void getNewRequest(Button button, Elevator elevator) {
@@ -51,29 +51,28 @@ public class ElevatorController {
 
 		// go to pickup
 		takeTrip(closestElevator, pickupFloor);
-		closestElevator.getDoor().setOpen(true);
-		closestElevator.getDoor().setOpen(false);
 		// go to dropoff
 		takeTrip(closestElevator, destinationFloor);
-		closestElevator.getDoor().setOpen(true);
-		closestElevator.getDoor().setOpen(false);
+		closestElevator.openDoors();
+		closestElevator.closeDoors();
 		closestElevator.addToNumberOfTrips();
+		removeRequest(nextRequest);
 		
 	}
 
-	private void takeTrip(Elevator closestElevator, int pickupFloor) {
+	private void takeTrip(Elevator closestElevator, int requestedFloor) {
 		int currentFloor = closestElevator.getCurrentFloor();
 		
-		if (currentFloor == pickupFloor) {
+		if (currentFloor == requestedFloor) {
 			return;
 		}
-		if (pickupFloor < currentFloor) {
-			while (pickupFloor < currentFloor) {
+		if (requestedFloor < currentFloor) {
+			while (requestedFloor < currentFloor) {
 				closestElevator.moveDown();
 				currentFloor--;
 			}
-		} else if (pickupFloor > currentFloor) {
-			while (pickupFloor > currentFloor) {
+		} else if (requestedFloor > currentFloor) {
+			while (requestedFloor > currentFloor) {
 				closestElevator.moveUp();
 				currentFloor++;
 			}
