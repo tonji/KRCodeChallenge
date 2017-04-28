@@ -7,9 +7,11 @@ public class Elevator {
 	private int numberOfTrips;
 	private int numberOfFloors;
 	private boolean occupied;
+	private ElevatorDoor door;
 
 	public Elevator(int elevatorId) {
 		this.elevatorId = elevatorId;
+		this.door = new ElevatorDoor();
 	}
 
 	public int getElevatorId() {
@@ -56,5 +58,9 @@ public class Elevator {
 	public void moveDown() {
 		currentFloor--;
 		addToNumberOfFloors();
+	}
+	
+	public ElevatorDoor getDoor() {
+		return door;
 	}
 }

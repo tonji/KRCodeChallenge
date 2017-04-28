@@ -32,7 +32,11 @@ public class ElevatorController {
 
 	public void getNewRequest(Button button, Elevator elevator) {
 		if (button instanceof FloorButton) {
-			TripRequest newRequest = new TripRequest(elevator.getCurrentFloor(), button.requestElevatorFloor());
+			int requestedFloor = button.requestElevatorFloor();
+			if (requestedFloor > numOfFloors || requestedFloor < GROUND_FLOOR) {
+				// throw exception for invalid requests
+			}
+			TripRequest newRequest = new TripRequest(elevator.getCurrentFloor(), requestedFloor);
 			addRequest(newRequest);
 		}
 	}
@@ -46,6 +50,14 @@ public class ElevatorController {
 		int pickupFloor = nextRequest.getFloorFrom();
 		int destinationFloor = nextRequest.getFloorTo();
 
+		// got to pickup
+		handlePickup(closestElevator, currentFloor, pickupFloor);
+	}
+
+	private void handlePickup(Elevator closestElevator, int currentFloor, int pickupFloor) {
+		if (currentFloor == pickupFloor) {
+			return;
+		}
 		if (pickupFloor < currentFloor) {
 			while (pickupFloor < currentFloor) {
 				closestElevator.moveDown();
@@ -54,7 +66,7 @@ public class ElevatorController {
 		} else if (pickupFloor > currentFloor) {
 			while (pickupFloor > currentFloor) {
 				closestElevator.moveUp();
-				currentFloor--;
+				currentFloor++;
 			}
 		}
 	}
